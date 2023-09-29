@@ -1,6 +1,36 @@
-import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, FlatList } from 'react-native';
 
 export default function App() {
+
+  const DATA = [
+    {
+      id:1,
+      titulo: 'Item 1'
+    },
+    {
+      id:2,
+      titulo: 'Item 2'
+    },
+    {
+      id:3,
+      titulo: 'Item 3'
+    },
+    {
+      id:4,
+      titulo: 'Item 4'
+    },
+    {
+      id:5,
+      titulo: 'Item 5'
+    }
+  ];
+
+  const Item = ({titulo}) => (
+    <View style={styles.itemContainer}>
+      <Text style={styles.item}>{titulo}</Text>
+    </View>
+  );
+
   return (
     <View style={styles.container}>
       <View style={styles.inputContainer}>
@@ -12,6 +42,13 @@ export default function App() {
         </View>
         
       </View>
+
+      <FlatList
+        data={DATA}
+        renderItem={({item}) => <Item titulo={item.titulo} />}
+        keyExtractor={item => item.id}
+      />
+
       
     </View>
   );
@@ -26,17 +63,29 @@ const styles = StyleSheet.create({
   inputContainer: {
     width: '100%',
     flexDirection: 'row',
-    marginTop: 20,
+    marginTop: 55,
+    marginBottom: 20,
     alignItems: 'center',
     justifyContent: 'space-between'
   },
   input: {
     width: '80%',
-    marginRight: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#52528C',
+    color: '#212121'
   },
-  button:{
-
+  itemContainer: {
+    marginVertical:10,
+    backgroundColor:'#52528C',
+    height: 60,
+    borderRadius: 5,
+    justifyContent: 'center'
+  },
+  item:{
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+    padding: 10
+    
   }
 });
