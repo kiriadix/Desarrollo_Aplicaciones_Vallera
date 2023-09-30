@@ -1,17 +1,19 @@
 import { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, FlatList} from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, FlatList, TouchableOpacity, Modal} from 'react-native';
 
 export default function App() {
-  const [idCount, setIdCount]     = useState(1);
-  const [data, setData]           = useState([]);
+  const [idCount, setIdCount] = useState(1);
+  const [data, setData] = useState([]);
   const [textInput, setTextInput] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
 
-  const Item = ({titulo}) => (
-    <View style={styles.itemContainer}>
+  const Item = ({item}) => (
+    <TouchableOpacity style={styles.itemContainer} onPress={() => onHandlerEvent(item.id)}>
       <Text style={styles.item}>
-        {titulo}
+        {item.titulo}
       </Text>
-    </View>
+    </TouchableOpacity>
   );
 
   const onPressBtn = () => {
@@ -31,6 +33,14 @@ export default function App() {
 
     
   };
+
+  const onHandlerEvent = (id) => {
+    const selectedItem = data.find(item => item.id === id);
+    setSelectedItem(selectedItem)
+    setModalVisible(true);
+  }
+
+  console.warn('item seleccionado', selectedItem);
 
   return (
     <View style={styles.container}>
@@ -56,9 +66,11 @@ export default function App() {
 
       <FlatList
         data={data}
-        renderItem={({item}) => <Item titulo={item.titulo} />}
+        renderItem={({item}) => <Item item={item} />}
         keyExtractor={item => item.id}
       />
+
+      <Modal visible={modalVisible} animationType='slide'></Modal>
 
       
     </View>
