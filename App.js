@@ -1,50 +1,61 @@
-import { StyleSheet, Text, View, TextInput, Button, FlatList } from 'react-native';
+import { useState } from 'react';
+import { StyleSheet, Text, View, TextInput, Button, FlatList} from 'react-native';
 
 export default function App() {
-
-  const DATA = [
-    {
-      id:1,
-      titulo: 'Item 1'
-    },
-    {
-      id:2,
-      titulo: 'Item 2'
-    },
-    {
-      id:3,
-      titulo: 'Item 3'
-    },
-    {
-      id:4,
-      titulo: 'Item 4'
-    },
-    {
-      id:5,
-      titulo: 'Item 5'
-    }
-  ];
+  const [idCount, setIdCount]     = useState(1);
+  const [data, setData]           = useState([]);
+  const [textInput, setTextInput] = useState('');
 
   const Item = ({titulo}) => (
     <View style={styles.itemContainer}>
-      <Text style={styles.item}>{titulo}</Text>
+      <Text style={styles.item}>
+        {titulo}
+      </Text>
     </View>
   );
+
+  const onPressBtn = () => {
+
+    if (textInput.length === 0) return;
+
+    setData([
+      ...data,
+      {
+        id:idCount,
+        titulo: textInput
+      }
+    ]);
+
+    setIdCount(idCount + 1);
+    setTextInput('');
+
+    
+  };
 
   return (
     <View style={styles.container}>
       <View style={styles.inputContainer}>
         
-        <TextInput placeholder="Enter your event"  style={styles.input} />
+        <TextInput 
+          placeholder="Enter your event"  
+          style={styles.input}
+          onChangeText={setTextInput}
+          value={textInput}
+        />
         
         <View style={styles.button}>
-          <Button title='Add' style={styles.button} color="#52528C"/>
+          <Button 
+            title='Add' 
+            style={styles.button} 
+            color="#52528C"
+            onPress={onPressBtn}
+          />
         </View>
         
       </View>
 
       <FlatList
-        data={DATA}
+        data={data}
         renderItem={({item}) => <Item titulo={item.titulo} />}
         keyExtractor={item => item.id}
       />
@@ -75,7 +86,7 @@ const styles = StyleSheet.create({
     color: '#212121'
   },
   itemContainer: {
-    marginVertical:10,
+    marginVertical:5,
     backgroundColor:'#52528C',
     height: 60,
     borderRadius: 5,
