@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, FlatList, TouchableOpacity, Modal} from 'react-native';
+import { Text, View, TextInput, Button, FlatList, TouchableOpacity, Modal} from 'react-native';
+import {styles} from "./styles.js";
 
 export default function App() {
   const [idCount, setIdCount] = useState(1);
@@ -7,14 +8,6 @@ export default function App() {
   const [textInput, setTextInput] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
-
-  const Item = ({item}) => (
-    <TouchableOpacity style={styles.itemContainer} onPress={() => onHandlerEvent(item.id)}>
-      <Text style={styles.item}>
-        {item.titulo}
-      </Text>
-    </TouchableOpacity>
-  );
 
   const onPressBtn = () => {
 
@@ -30,8 +23,6 @@ export default function App() {
 
     setIdCount(idCount + 1);
     setTextInput('');
-
-    
   };
 
   const onHandlerEvent = (id) => {
@@ -40,14 +31,36 @@ export default function App() {
     setModalVisible(true);
   }
 
-  console.warn('item seleccionado', selectedItem);
+  const onCancelEvent = () => {
+    setSelectedItem(null);
+    setModalVisible(false);
+  }
+
+  const deleteItem = () => {
+    const newItems = data.filter(item => item.id !== selectedItem.id);
+    setData(newItems);
+    onCancelEvent();
+  }
+
+  const Item = ({item}) => (
+    <TouchableOpacity 
+      style={styles.itemContainer} 
+      onPress={() => onHandlerEvent(item.id)}
+    >
+      <Text style={styles.item}>
+        {item.titulo}
+      </Text>
+    </TouchableOpacity>
+  );
+
+  
 
   return (
     <View style={styles.container}>
       <View style={styles.inputContainer}>
         
         <TextInput 
-          placeholder="Enter your event"  
+          placeholder="Ingrese su tarea"  
           style={styles.input}
           onChangeText={setTextInput}
           value={textInput}
@@ -57,7 +70,7 @@ export default function App() {
           <Button 
             title='Add' 
             style={styles.button} 
-            color="#52528C"
+            color="#82E0AA"
             onPress={onPressBtn}
           />
         </View>
@@ -70,45 +83,31 @@ export default function App() {
         keyExtractor={item => item.id}
       />
 
-      <Modal visible={modalVisible} animationType='slide'></Modal>
-
-      
+      <Modal visible={modalVisible} animationType='slide'>
+        <View style={styles.ModalContainter}>
+          <View style={styles.titleModal}>
+            <Text>DETALLES DE LA TAREA</Text>
+          </View>
+          <View style={styles.detailModalContainer}>
+            <Text>Esta seguro que desea eliminar la tarea:</Text>
+            <Text>
+              { selectedItem === null ? '' : selectedItem.titulo }
+            </Text>
+          </View>
+          <View style={styles.btnModalContainer}>
+            <Button
+              title='Cancelar'
+              color='#212121'
+              onPress={onCancelEvent}
+            />
+            <Button
+              title='Eliminar'
+              color='red'
+              onPress={deleteItem}
+            />
+          </View>
+        </View>
+      </Modal>      
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    marginHorizontal: 20,
-  },
-  inputContainer: {
-    width: '100%',
-    flexDirection: 'row',
-    marginTop: 55,
-    marginBottom: 20,
-    alignItems: 'center',
-    justifyContent: 'space-between'
-  },
-  input: {
-    width: '80%',
-    borderBottomWidth: 1,
-    borderBottomColor: '#52528C',
-    color: '#212121'
-  },
-  itemContainer: {
-    marginVertical:5,
-    backgroundColor:'#52528C',
-    height: 60,
-    borderRadius: 5,
-    justifyContent: 'center'
-  },
-  item:{
-    color: 'white',
-    fontSize: 16,
-    fontWeight: 'bold',
-    padding: 10
-    
-  }
-});
