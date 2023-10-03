@@ -85,12 +85,14 @@ export default function App() {
 
       <Modal visible={modalVisible} animationType='slide'>
         <View style={styles.ModalContainter}>
-          <View style={styles.titleModal}>
-            <Text>DETALLES DE LA TAREA</Text>
+          <View>
+            <Text style={styles.titleModal}>DETALLES DE LA TAREA</Text>
           </View>
           <View style={styles.detailModalContainer}>
-            <Text>Esta seguro que desea eliminar la tarea:</Text>
-            <Text>
+            <Text style={styles.detailModalMessage}>
+              Esta seguro que desea eliminar la tarea:
+            </Text>
+            <Text style={styles.selectItemModal}>
               { selectedItem === null ? '' : selectedItem.titulo }
             </Text>
           </View>
@@ -107,7 +109,8 @@ export default function App() {
             />
           </View>
         </View>
-      </Modal>      
+      </Modal>
+
     </View>
   );
 }

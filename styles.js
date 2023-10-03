@@ -51,11 +51,18 @@ export const styles = StyleSheet.create({
         marginBottom: 10,
     },
     detailModalContainer:{
+        paddingVertical: 20,
+    },
+    detailModalMessage: {
         fontSize: 14,
+        color: '#212121',
+    },
+    selectItemModal:{
+        fontSize: 18,
         color: '#212121',
         fontWeight: 'bold',
         paddingVertical: 10,
         textAlign: 'center',
-        marginBottom: 20
+        marginBottom: 20,
     }
 });
