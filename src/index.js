@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { Text, View, TextInput, Button, FlatList, TouchableOpacity, Modal} from 'react-native';
+import { View } from 'react-native';
 import {styles} from "./styles.js";
+import { Input, CustomModal, List } from './components/index';
 
 export default function App() {
   const [idCount, setIdCount] = useState(1);
@@ -42,75 +43,27 @@ export default function App() {
     onCancelEvent();
   }
 
-  const Item = ({item}) => (
-    <TouchableOpacity 
-      style={styles.itemContainer} 
-      onPress={() => onHandlerEvent(item.id)}
-    >
-      <Text style={styles.item}>
-        {item.titulo}
-      </Text>
-    </TouchableOpacity>
-  );
-
-  
-
   return (
     <View style={styles.container}>
-      <View style={styles.inputContainer}>
-        
-        <TextInput 
-          placeholder="Ingrese su tarea"  
-          style={styles.input}
-          onChangeText={setTextInput}
-          value={textInput}
-        />
-        
-        <View style={styles.button}>
-          <Button 
-            title='Add' 
-            style={styles.button} 
-            color="#82E0AA"
-            onPress={onPressBtn}
-          />
-        </View>
-        
-      </View>
-
-      <FlatList
-        data={data}
-        renderItem={({item}) => <Item item={item} />}
-        keyExtractor={item => item.id}
+      
+      <Input 
+        setTextInput={setTextInput}
+        textInput={textInput}
+        onPressBtn={onPressBtn}
       />
 
-      <Modal visible={modalVisible} animationType='slide'>
-        <View style={styles.ModalContainter}>
-          <View>
-            <Text style={styles.titleModal}>DETALLES DE LA TAREA</Text>
-          </View>
-          <View style={styles.detailModalContainer}>
-            <Text style={styles.detailModalMessage}>
-              Esta seguro que desea eliminar la tarea:
-            </Text>
-            <Text style={styles.selectItemModal}>
-              { selectedItem === null ? '' : selectedItem.titulo }
-            </Text>
-          </View>
-          <View style={styles.btnModalContainer}>
-            <Button
-              title='Cancelar'
-              color='#212121'
-              onPress={onCancelEvent}
-            />
-            <Button
-              title='Eliminar'
-              color='red'
-              onPress={deleteItem}
-            />
-          </View>
-        </View>
-      </Modal>
+      <List 
+        data={data}
+        onHandlerEvent={onHandlerEvent}
+      />
 
+      <CustomModal 
+        modalVisible={modalVisible}
+        selectedItem={selectedItem}
+        onCancelEvent={onCancelEvent}
+        deleteItem={deleteItem}
+      />
+  
     </View>
   );
 }
