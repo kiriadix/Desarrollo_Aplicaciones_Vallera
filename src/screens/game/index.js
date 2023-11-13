@@ -1,16 +1,15 @@
 import { StatusBar } from 'expo-status-bar';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 
-import { StartGame } from './screens/index.js';
 import { styles } from './styles.js';
 
-const App = () => {
+const Game = () => {
   return (
     <View style={styles.container}>
-      <StartGame />
+      <Text>Game</Text>
       <StatusBar style="auto" />
     </View>
   );
 };
 
-export default App;
+export default Game;
