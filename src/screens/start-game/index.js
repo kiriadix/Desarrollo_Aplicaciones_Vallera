@@ -1,5 +1,13 @@
 import { useState } from 'react';
-import { Button, Text, TextInput, View, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import {
+  Button,
+  Text,
+  TextInput,
+  View,
+  TouchableWithoutFeedback,
+  Keyboard,
+  Alert,
+} from 'react-native';
 
 import { styles } from './styles.js';
 import { Card, Header } from '../../components/index.js';
@@ -10,6 +18,15 @@ const StartGame = () => {
 
   const onHandlerChangeText = (text) => {
     setNumber(text.replace(/[^0-9]/g, ''));
+  };
+
+  const onHandlerConfirm = () => {
+    const numeroSeleccionado = Number(number);
+    if (isNaN(numeroSeleccionado) || numeroSeleccionado <= 0 || numeroSeleccionado > 99) {
+      Alert.alert('Número Invalido', 'El número deberia estar entre 1 y 99', [
+        { text: 'ok', style: 'destructive', onPress: () => setNumber('') },
+      ]);
+    }
   };
 
   return (
@@ -34,7 +51,7 @@ const StartGame = () => {
             <Button title="Reiniciar" onPress={() => {}} color={theme.colors.secondary} />
             <Button
               title="Confirmar"
-              onPress={() => {}}
+              onPress={onHandlerConfirm}
               color={theme.colors.primary}
               disabled={number === ''}
             />
