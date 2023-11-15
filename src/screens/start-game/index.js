@@ -32,7 +32,12 @@ const StartGame = () => {
           />
           <View style={styles.buttonContainer}>
             <Button title="Reiniciar" onPress={() => {}} color={theme.colors.secondary} />
-            <Button title="Confirmar" onPress={() => {}} color={theme.colors.primary} />
+            <Button
+              title="Confirmar"
+              onPress={() => {}}
+              color={theme.colors.primary}
+              disabled={number === ''}
+            />
           </View>
         </Card>
       </View>
