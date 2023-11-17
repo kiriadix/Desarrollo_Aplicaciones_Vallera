@@ -10,10 +10,10 @@ import {
 } from 'react-native';
 
 import { styles } from './styles.js';
-import { Card, Header, NumberContainer } from '../../components/index.js';
+import { Card, NumberContainer } from '../../components/index.js';
 import { theme } from '../../constants';
 
-const StartGame = () => {
+const StartGame = ({ OnStartGame }) => {
   const [number, setNumber] = useState('');
   const [confirmado, setConfirmado] = useState(false);
   const [numeroSeleccionado, setNumeroSeleccionado] = useState(null);
@@ -41,7 +41,9 @@ const StartGame = () => {
     setNumeroSeleccionado(null);
   };
 
-  const onHandlerStartGame = () => {};
+  const onHandlerStartGame = () => {
+    OnStartGame(numeroSeleccionado);
+  };
 
   const Confirmed = () =>
     confirmado ? (
@@ -58,7 +60,6 @@ const StartGame = () => {
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.container}>
-        <Header title="Bienvenido" />
         <Text style={styles.title}>Inicio del Juego</Text>
         {!confirmado ? (
           <Card style={styles.inputContainer}>
