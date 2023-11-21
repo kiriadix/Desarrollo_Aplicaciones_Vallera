@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Button, Text, View } from 'react-native';
+import { useEffect, useRef, useState } from 'react';
+import { Alert, Button, Text, View } from 'react-native';
 
 import { styles } from './styles.js';
 import { Card, NumberContainer } from '../../components';
@@ -20,10 +20,41 @@ const generateRamdomNumber = (min, max, exclude) => {
   }
 };
 
-const Game = ({ numeroJugador }) => {
+const Game = ({ numeroJugador, onGameOver }) => {
   const [currentGuess, setCurrentGuess] = useState(
     generateRamdomNumber(MIN_MUMBER, MAX_NUMBER, numeroJugador)
   );
+  const [rounds, setRounds] = useState(0);
+
+  const currentLow = useRef(MIN_MUMBER);
+  const currentHigh = useRef(MAX_NUMBER);
+
+  const onHandlerNewxGuess = (direction) => {
+    if (
+      (direction === 'lower' && currentGuess < numeroJugador) ||
+      (direction === 'greater' && currentGuess > numeroJugador)
+    ) {
+      Alert.alert('Pista', 'Lo que intentas hacer no es correcto', [
+        { text: 'Lo siento', style: 'cancel' },
+      ]);
+      return;
+    }
+
+    if (direction === 'lower') {
+      currentHigh.current = currentGuess;
+    } else {
+      currentLow.current = currentGuess;
+    }
+
+    const nextNumber = generateRamdomNumber(currentLow.current, currentHigh.current, currentGuess);
+
+    setCurrentGuess(nextNumber);
+    setRounds((currentRountd) => currentRountd + 1);
+  };
+
+  useEffect(() => {
+    if (currentGuess === numeroJugador) onGameOver(rounds);
+  }, [currentGuess, numeroJugador, onGameOver]);
 
   return (
     <View style={styles.container}>
@@ -31,8 +62,16 @@ const Game = ({ numeroJugador }) => {
         <Text style={styles.title}> Adivina el Número </Text>
         <NumberContainer number={currentGuess} />
         <View style={styles.buttonContainer}>
-          <Button title="Menor" color={theme.colors.primary} onPress={() => {}} />
-          <Button title="Mayor" color={theme.colors.primary} onPress={() => {}} />
+          <Button
+            title="Menor"
+            color={theme.colors.primary}
+            onPress={() => onHandlerNewxGuess('lower')}
+          />
+          <Button
+            title="Mayor"
+            color={theme.colors.primary}
+            onPress={() => onHandlerNewxGuess('greater')}
+          />
         </View>
       </Card>
     </View>

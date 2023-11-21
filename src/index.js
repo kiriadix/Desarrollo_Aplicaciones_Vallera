@@ -1,6 +1,6 @@
 import { useFonts } from 'expo-font';
 import { useState } from 'react';
-import { ActivityIndicator, View } from 'react-native';
+import { ActivityIndicator, StatusBar, View } from 'react-native';
 
 import { Header } from './components/index.js';
 import { theme } from './constants';
@@ -17,6 +17,7 @@ const App = () => {
   if (!loaded) {
     return (
       <View style={styles.loaderContainer}>
+        <StatusBar backgroundColor={theme.colors.primary} />
         <ActivityIndicator size="large" color={theme.colors.primary} />
       </View>
     );
@@ -26,7 +27,7 @@ const App = () => {
 
   const Content = () =>
     numeroJugador ? (
-      <Game numeroJugador={numeroJugador} />
+      <Game numeroJugador={(numeroJugador, onGameOver)} />
     ) : (
       <StartGame OnStartGame={OnStartGame} />
     );
@@ -34,8 +35,12 @@ const App = () => {
   const OnStartGame = (number) => {
     setNumeroJugador(number);
   };
+
+  const onGameOver = () => {};
+
   return (
     <View style={styles.container}>
+      <StatusBar backgroundColor={theme.colors.primary} />
       <Header title={Title} />
       <Content />
     </View>
