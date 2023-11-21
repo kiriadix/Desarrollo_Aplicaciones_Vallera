@@ -7,4 +7,10 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: theme.colors.white,
   },
+  loaderContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: theme.colors.white,
+  },
 });

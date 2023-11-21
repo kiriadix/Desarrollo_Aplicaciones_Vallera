@@ -1,14 +1,28 @@
+import { useFonts } from 'expo-font';
 import { useState } from 'react';
-import { View } from 'react-native';
+import { ActivityIndicator, View } from 'react-native';
 
 import { Header } from './components/index.js';
-import { StartGame, Game } from './screens/index.js';
+import { theme } from './constants';
+import { Game, StartGame } from './screens/index.js';
 import { styles } from './styles.js';
 
 const App = () => {
   const [numeroJugador, setNumeroJugador] = useState(null);
+  const [loaded] = useFonts({
+    'PlaypenSans-Regular': require('../assets/fonts/PlaypenSans-Regular.ttf'),
+    'PlaypenSans-Bold': require('../assets/fonts/PlaypenSans-Bold.ttf'),
+  });
 
-  const Title = numeroJugador ? 'Juego' : 'Bienvenido';
+  if (!loaded) {
+    return (
+      <View style={styles.loaderContainer}>
+        <ActivityIndicator size="large" color={theme.colors.primary} />
+      </View>
+    );
+  }
+
+  const Title = numeroJugador ? 'JUEGO' : 'BIENVENIDO';
 
   const Content = () =>
     numeroJugador ? (
