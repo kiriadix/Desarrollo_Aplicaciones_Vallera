@@ -4,11 +4,13 @@ import { ActivityIndicator, StatusBar, View } from 'react-native';
 
 import { Header } from './components/index.js';
 import { theme } from './constants';
-import { Game, StartGame } from './screens/index.js';
+import { Game, GameOver, StartGame } from './screens/index.js';
 import { styles } from './styles.js';
 
 const App = () => {
   const [numeroJugador, setNumeroJugador] = useState(null);
+  const [rondasUsadas, setRondasUsadas] = useState(0);
+
   const [loaded] = useFonts({
     'PlaypenSans-Regular': require('../assets/fonts/PlaypenSans-Regular.ttf'),
     'PlaypenSans-Bold': require('../assets/fonts/PlaypenSans-Bold.ttf'),
@@ -25,18 +27,25 @@ const App = () => {
 
   const Title = numeroJugador ? 'JUEGO' : 'BIENVENIDO';
 
-  const Content = () =>
-    numeroJugador ? (
-      <Game numeroJugador={(numeroJugador, onGameOver)} />
-    ) : (
-      <StartGame OnStartGame={OnStartGame} />
-    );
+  const Content = () => {
+    if (numeroJugador && rondasUsadas <= 0) {
+      return <Game numeroJugador={numeroJugador} onGameOver={onGameOver} />;
+    }
+
+    if (rondasUsadas > 0) {
+      return <GameOver rondasUsadas={rondasUsadas} />;
+    }
+
+    return <StartGame OnStartGame={OnStartGame} />;
+  };
 
   const OnStartGame = (number) => {
     setNumeroJugador(number);
   };
 
-  const onGameOver = () => {};
+  const onGameOver = (rondas) => {
+    setRondasUsadas(rondas);
+  };
 
   return (
     <View style={styles.container}>

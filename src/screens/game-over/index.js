@@ -1,13 +1,11 @@
-import { StatusBar } from 'expo-status-bar';
 import { Text, View } from 'react-native';
 
 import { styles } from './styles.js';
 
-const GameOver = () => {
+const GameOver = ({ rondasUsadas }) => {
   return (
     <View style={styles.container}>
       <Text>Game Over</Text>
-      <StatusBar style="auto" />
     </View>
   );
 };
