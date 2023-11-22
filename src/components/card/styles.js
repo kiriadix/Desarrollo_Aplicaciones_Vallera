@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+
 import { theme } from '../../constants';
 
 export const styles = StyleSheet.create({
@@ -13,6 +14,6 @@ export const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
     borderRadius: 10,
-    paddingVertical:20,
+    paddingVertical: 20,
   },
 });

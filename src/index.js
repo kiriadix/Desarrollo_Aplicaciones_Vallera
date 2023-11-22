@@ -25,7 +25,12 @@ const App = () => {
     );
   }
 
-  const Title = numeroJugador ? 'JUEGO' : 'BIENVENIDO';
+  const Title =
+    numeroJugador && rondasUsadas === 0
+      ? 'JUEGO'
+      : rondasUsadas > 0
+      ? 'JUEGO TERMINADO'
+      : 'BIENVENIDOS';
 
   const Content = () => {
     if (numeroJugador && rondasUsadas <= 0) {
@@ -33,7 +38,13 @@ const App = () => {
     }
 
     if (rondasUsadas > 0) {
-      return <GameOver rondasUsadas={rondasUsadas} />;
+      return (
+        <GameOver
+          rondasUsadas={rondasUsadas}
+          onRestartGame={onRestartGame}
+          numeroJugador={numeroJugador}
+        />
+      );
     }
 
     return <StartGame OnStartGame={OnStartGame} />;
@@ -45,6 +56,11 @@ const App = () => {
 
   const onGameOver = (rondas) => {
     setRondasUsadas(rondas);
+  };
+
+  const onRestartGame = () => {
+    setNumeroJugador(null);
+    setRondasUsadas(0);
   };
 
   return (
